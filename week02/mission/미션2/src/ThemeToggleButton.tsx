@@ -17,7 +17,7 @@ export default function ThemeToggleButton() {
                 }
             )}
         >
-            {isLightMode ? '다크 모드' : '라이트 모드'}
+            {isLightMode ? '라이트 모드' : '다크 모드'}
         </button>
     );
 }

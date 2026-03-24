@@ -10,6 +10,7 @@ export default function ContextPage(){
                 <Navbar />
                 <main className="flex-1">
                     <ThemeContent />
+                    <h1>모드전환</h1>
                 </main>
             </div>
         </TDThemeProvider>

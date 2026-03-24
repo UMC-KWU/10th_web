@@ -1,7 +1,7 @@
 import { createContext, useState, useContext } from 'react';
 import { type PropsWithChildren } from 'react';
 
-enum THEME {
+export enum THEME {
     LIGHT = 'light',
     DARK = 'dark',
 }
