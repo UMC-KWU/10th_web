@@ -1,52 +1,31 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { LoadingSpinner } from "../components/LoadingSpinner";
+import NotFound from "./ErrorPage";
+import useCustomFetch from "../hooks/useCustomFetch";
 
 const MovieDetailPage = () => {
   const { movieID } = useParams<{ movieID: string }>();
-  const [movie, setMovie] = useState<any>(null); //영화 상세 정보
-  const [credits, setCredits] = useState<any>(null); //영화 출연진 정보
-  const [isPending, setIsPending] = useState(true);
-  const [isError, setIsError] = useState(false);
 
-  useEffect(() => {
-    const fetchMovieDate = async () => {
-      setIsPending(true);
+  const {
+    //영화 상세 정보 가져오기 -> useCustomFetch 커스텀 훅 사용
+    data: movie, //영화 정보
+    isPending: isMoviePending,
+    isError: isMovieError,
+  } = useCustomFetch<any>(
+    `https://api.themoviedb.org/3/movie/${movieID}?language=ko-KR`,
+  );
 
-      try {
-        const [detailRes, creditsRes] = await Promise.all([
-          axios.get(
-            `https://api.themoviedb.org/3/movie/${movieID}?language=ko-KR`,
-            {
-              headers: {
-                Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
-              },
-            },
-          ),
-          axios.get(
-            `https://api.themoviedb.org/3/movie/${movieID}/credits?language=ko-KR`,
-            {
-              headers: {
-                Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
-              },
-            },
-          ),
-        ]);
+  const {
+    //영화 출연진 정보 가져오기 -> useCustomFetch 커스텀 훅 사용
+    data: credits, //출연진 정보
+    isPending: isCreditsPending,
+    isError: isCreditsError,
+  } = useCustomFetch<any>(
+    `https://api.themoviedb.org/3/movie/${movieID}/credits?language=ko-KR`,
+  );
 
-        setMovie(detailRes.data);
-        setCredits(creditsRes.data);
-      } catch {
-        setIsError(true);
-      } finally {
-        setIsPending(false);
-      }
-    };
-    fetchMovieDate();
-  }, [movieID]);
-
-  if (isPending) return <LoadingSpinner />;
-  if (isError) return <div>에러가 발생했습니다.</div>;
+  if (isMoviePending || isCreditsPending) return <LoadingSpinner />; //로딩처리
+  if (isMovieError || isCreditsError) return <NotFound />; //에러처리
 
   return (
     <div className="min-h-screen bg-[#0f172a] text-white p-8">
