@@ -1,0 +1,18 @@
+import { useMutation } from "@tanstack/react-query";
+import { postLike } from "../../apis/lp";
+import { queryClient } from "../../App";
+import { QUERY_KEY } from "../../constants/key";
+
+function usePostLike() {
+  return useMutation({
+    mutationFn: postLike,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.lps, data.data.lpId],
+        exact: true, //정확히 매칭하는 경우만 새로고침해라
+      });
+    },
+  });
+}
+
+export default usePostLike;
