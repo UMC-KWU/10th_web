@@ -1,0 +1,26 @@
+interface SelectBoxProps {
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  label: string;
+  id?: string;
+  className?: string;
+}
+
+export const SelectBox = ({ onChange, label, id, className = '' }: SelectBoxProps) => {
+  return (
+    <div className={`flex items-center gap-2 ${className}`}>
+      <input
+        type="checkbox"
+        id={id}
+        onChange={(e) => onChange(e.target.checked)}
+        className="size-4 rounded border-gray-300 bg-gray-200 text-blue-600
+     focus:ring-blue-500"
+      />
+      <label
+        htmlFor={id}
+        className="text-sm font-medium text-gray-700">
+        {label}
+      </label>
+    </div>
+  );
+};
