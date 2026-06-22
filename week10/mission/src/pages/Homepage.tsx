@@ -16,7 +16,7 @@ function Homepage() {
     };
   }, [filters]);
 
-  const { data, erorr, isloading } = useFetch<MovieResponse>('/search/movie', axiosRequesConfig);
+  const { data, error, isLoading } = useFetch<MovieResponse>('/search/movie', axiosRequesConfig);
   const handleMovieFileters = useCallback(
     (filters: MovieFilters) => {
       setFilters(filters);
@@ -24,15 +24,15 @@ function Homepage() {
     [setFilters],
   );
 
-  if (erorr) {
-    return <div>{erorr}</div>;
+  if (error) {
+    return <div>{error}</div>;
   }
 
   // console.log(data?.results.map((movie) => movie.title));
   return (
     <div className="container">
       <MovieFilter onChange={handleMovieFileters} />
-      {isloading ? <div>로딩 중 ...</div> : <MovieList movies={data?.results || []} />}
+      {isLoading ? <div>로딩 중 ...</div> : <MovieList movies={data?.results || []} />}
     </div>
   );
 }

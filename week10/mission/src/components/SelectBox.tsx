@@ -6,7 +6,7 @@ interface SelectBoxProps {
   className?: string;
 }
 
-export const SelectBox = ({ checked, onChange, label, id, className = '' }: SelectBoxProps) => {
+export const SelectBox = ({ onChange, label, id, className = '' }: SelectBoxProps) => {
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       <input
