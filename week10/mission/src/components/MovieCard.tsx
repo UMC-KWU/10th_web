@@ -2,19 +2,21 @@ import { type Movie } from '../types/movies';
 
 interface MovieCardProps {
   movie: Movie;
+  onClick?: (movie: Movie) => void;
 }
 
-const MovieCard = ({ movie }: MovieCardProps) => {
+const MovieCard = ({ movie, onClick }: MovieCardProps) => {
   const imageBaseUrl = 'https://image.tmdb.org/t/p/w500';
   const fallbackImageUrl = '../public/icons.svg';
 
   return (
-    <div className="overflow-hidden rounded-lg bg-white shadow-md tranition-all hover:shadow-lg">
+    <div className="overflow-hidden rounded-lg bg-white shadow-md transition-all hover:shadow-lg">
       <div className="relative h-80 overflow-hidden">
         <img
           src={movie.poster_path ? `${imageBaseUrl}${movie.poster_path}` : fallbackImageUrl}
           alt={movie.title}
-          className="h-full w-full object-cover transition-transform duration-300 hover:scale-110"
+          className="h-full w-full object-cover transition-transform duration-300 hover:scale-110 cursor-pointer"
+          onClick={() => onClick?.(movie)}
         />
         <div className="absolute right-2 top-2 rounded-md bg-black px-2 py-1 text-sm font-bold text-white">{movie.vote_average.toFixed(1)}</div>
       </div>

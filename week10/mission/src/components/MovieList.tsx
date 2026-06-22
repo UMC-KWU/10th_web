@@ -1,10 +1,21 @@
 import { type Movie } from '../types/movies';
 import MovieCard from './MovieCard';
+import { useState } from 'react';
+import MovieModal from './MovieModal';
 
 interface MovieListProps {
   movies: Movie[];
 }
-const MovieLiset = ({ movies }: MovieListProps) => {
+
+const MovieList = ({ movies }: MovieListProps) => {
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
+
+  const openModal = (movie: Movie) => {
+    setSelectedMovie(movie);
+  };
+  const closeModal = () => {
+    setSelectedMovie(null);
+  };
   if (movies.length === 0) {
     return (
       <div className="flex h-60 items-center justify-center">
@@ -18,10 +29,18 @@ const MovieLiset = ({ movies }: MovieListProps) => {
         <MovieCard
           key={movie.id}
           movie={movie}
+          onClick={openModal}
         />
-      ))}{' '}
+      ))}
+
+      {selectedMovie && (
+        <MovieModal
+          movie={selectedMovie}
+          onClose={closeModal}
+        />
+      )}
     </div>
   );
 };
 
-export default MovieLiset;
+export default MovieList;
